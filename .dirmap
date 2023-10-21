@@ -1,0 +1,19 @@
+src/
+	models/
+		post.ts
+	controllers/
+		posts.ts
+		search.ts
+		requests.ts
+		localdb.ts
+	constant/
+		url.ts
+	ui/
+		styles/
+			style.ts
+		pages/
+			home.tsx
+		components/
+			searchbar.tsx
+			card.tsx
+	
