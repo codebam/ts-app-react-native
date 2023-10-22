@@ -19,32 +19,25 @@ export default function App() {
 	const theme = useTheme();
 	const styles = StyleSheet.create({
 		input: {
-			backgroundColor: theme.colors.secondary,
+			backgroundColor: theme.colors.onBackground,
 			width: "70%",
 		},
 		container: {
 			flex: 1,
 			alignItems: "center",
 			justifyContent: "center",
-			backgroundColor: theme.colors.primary,
+			backgroundColor: "#000",
 		},
 	});
 	const [text, setText] = useState("");
 	const [messages, setMessages] = useState([
-		"example message",
-		"hello world",
-		"why are these here",
-		"why are these here",
-		"why are these here",
-		"why are these here",
-		"why are these here",
+		{ response: false, content: "example message" },
+		{ response: true, content: "hello world" },
+		{ response: false, content: "foobar" },
+		{ response: true, content: Date() },
 	]);
 	return (
-		<PaperProvider
-			theme={{
-				...MD3DarkTheme,
-			}}
-		>
+		<PaperProvider theme={{ ...MD3DarkTheme }}>
 			<SafeAreaView style={styles.container}>
 				<MessageView messages={messages} />
 				<KeyboardAvoidingView
@@ -57,9 +50,14 @@ export default function App() {
 					behavior={"padding"}
 				>
 					<TextInput style={styles.input} value={text} onChangeText={setText} />
-					<Button icon="send">send</Button>
+					<Button
+						icon="send"
+						onPress={(e) => setMessages([...messages, ...messages])}
+					>
+						send
+					</Button>
 				</KeyboardAvoidingView>
-				<StatusBar style="auto" />
+				<StatusBar style="light" />
 			</SafeAreaView>
 		</PaperProvider>
 	);
