@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
+import {
+	StyleSheet,
+	View,
+	KeyboardAvoidingView,
+	SafeAreaView,
+} from "react-native";
 import {
 	PaperProvider,
 	Button,
@@ -16,7 +21,7 @@ export default function App() {
 		input: {
 			margin: "5%",
 			backgroundColor: theme.colors.secondary,
-			width: 300,
+			width: "70%",
 		},
 		container: {
 			flex: 1,
