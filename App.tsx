@@ -1,20 +1,56 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from "react";
+import { StatusBar } from "expo-status-bar";
+import {
+	StyleSheet,
+	View,
+	TextInput,
+	Button,
+	KeyboardAvoidingView,
+} from "react-native";
+import MessageView from "./src/MessageView";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+	const [text, setText] = useState("");
+	const [messages, setMessages] = useState([
+		"example message",
+		"hello world",
+		"why are these here",
+		"why are these here",
+		"why are these here",
+		"why are these here",
+		"why are these here",
+	]);
+	return (
+		<View style={styles.container}>
+			<MessageView messages={messages} />
+			<KeyboardAvoidingView
+				style={{
+					flexDirection: "row",
+					width: "100%",
+					alignItems: "center",
+					justifyContent: "center",
+				}}
+				behavior={"padding"}
+			>
+				<TextInput style={styles.input} value={text} onChangeText={setText} />
+				<Button title={"Send"} />
+			</KeyboardAvoidingView>
+			<StatusBar style="auto" />
+		</View>
+	);
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+	input: {
+		height: "40%",
+		margin: "5%",
+		borderWidth: 1,
+		padding: 10,
+		paddingRight: "55%",
+	},
+	container: {
+		flex: 1,
+		alignItems: "center",
+		justifyContent: "center",
+	},
 });
