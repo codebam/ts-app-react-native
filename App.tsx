@@ -2,7 +2,6 @@ import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
 	StyleSheet,
-	View,
 	KeyboardAvoidingView,
 	SafeAreaView,
 	Platform,
@@ -10,7 +9,6 @@ import {
 	TextInput,
 	Button,
 } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
 import MessageView from "./src/MessageView";
 import TopBarView from "./src/TopBarView";
 
@@ -33,7 +31,7 @@ export default function App() {
 		{ response: boolean; content: string }[]
 	>([]);
 
-	const onPress = async (e: any) => {
+	const onPress = async () => {
 		const message = text;
 		setText("");
 		let newMessages = [...messages, { response: false, content: message }];
@@ -50,29 +48,27 @@ export default function App() {
 	};
 
 	return (
-		<NavigationContainer>
-			<SafeAreaView style={styles.container}>
-				<TopBarView setMessages={setMessages} />
-				<MessageView messages={messages} colorscheme={colorscheme} />
-				<KeyboardAvoidingView
-					style={{
-						flexDirection: "row",
-						width: "100%",
-						alignItems: "center",
-						justifyContent: "center",
-					}}
-					behavior={Platform.OS === "ios" ? "padding" : "height"}
-				>
-					<TextInput
-						style={styles.input}
-						placeholder={"Ask me a question..."}
-						value={text}
-						onChangeText={setText}
-					/>
-					<Button title={"Send"} onPress={onPress} />
-				</KeyboardAvoidingView>
-				<StatusBar style="light" />
-			</SafeAreaView>
-		</NavigationContainer>
+		<SafeAreaView style={styles.container}>
+			<TopBarView setMessages={setMessages} />
+			<MessageView messages={messages} colorscheme={colorscheme} />
+			<KeyboardAvoidingView
+				style={{
+					flexDirection: "row",
+					width: "100%",
+					alignItems: "center",
+					justifyContent: "center",
+				}}
+				behavior={Platform.OS === "ios" ? "padding" : "height"}
+			>
+				<TextInput
+					style={styles.input}
+					placeholder={"Ask me a question..."}
+					value={text}
+					onChangeText={setText}
+				/>
+				<Button title={"Send"} onPress={onPress} />
+			</KeyboardAvoidingView>
+			<StatusBar style="light" />
+		</SafeAreaView>
 	);
 }

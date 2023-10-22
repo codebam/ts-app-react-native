@@ -1,14 +1,8 @@
-import { Button, Text, View, FlatList, useColorScheme } from "react-native";
+import { View, Button } from "react-native";
 
 export default ({ setMessages }: any) => {
 	return (
-		<View
-			style={{
-				alignContent: "flex-end",
-				justifyContent: "flex-end",
-				width: "100%",
-			}}
-		>
+		<View>
 			<Button title={"Clear"} onPress={() => setMessages([])} />
 		</View>
 	);

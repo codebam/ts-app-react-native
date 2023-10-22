@@ -10,6 +10,11 @@ export default ({ messages, colorscheme }: any) => {
 						style={{
 							padding: "5%",
 							color: colorscheme === "dark" ? "#fff" : undefined,
+							backgroundColor: item.item.response
+								? colorscheme === "dark"
+									? "#777"
+									: "#eee"
+								: undefined,
 						}}
 					>
 						{item.item.content}
