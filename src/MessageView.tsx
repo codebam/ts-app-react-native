@@ -12,7 +12,7 @@ export default ({ messages, colorscheme }: any) => {
 							color: colorscheme === "dark" ? "#fff" : undefined,
 							backgroundColor: item.item.response
 								? colorscheme === "dark"
-									? "#777"
+									? "#222"
 									: "#eee"
 								: undefined,
 						}}

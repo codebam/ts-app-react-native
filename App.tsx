@@ -8,16 +8,21 @@ import {
 	useColorScheme,
 	TextInput,
 	Button,
+	View,
 } from "react-native";
 import MessageView from "./src/MessageView";
 import TopBarView from "./src/TopBarView";
 
 export default function App() {
 	const colorscheme = useColorScheme();
+	// const colorscheme = "dark";
 	const styles = StyleSheet.create({
 		input: {
 			width: "70%",
-			color: colorscheme === "dark" ? "#fff" : undefined,
+			backgroundColor: "#ddd",
+			margin: 10,
+			padding: 10,
+			borderRadius: 20,
 		},
 		container: {
 			flex: 1,
@@ -66,7 +71,15 @@ export default function App() {
 					value={text}
 					onChangeText={setText}
 				/>
-				<Button title={"Send"} onPress={onPress} />
+				<View
+					style={{
+						backgroundColor: "#07f",
+						borderRadius: 30,
+						margin: 1,
+					}}
+				>
+					<Button color="#fff" title={"Send"} onPress={onPress} />
+				</View>
 			</KeyboardAvoidingView>
 			<StatusBar style="light" />
 		</SafeAreaView>
