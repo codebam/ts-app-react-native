@@ -1,8 +1,6 @@
-import { View, FlatList } from "react-native";
-import { Text, useTheme } from "react-native-paper";
+import { Text, View, FlatList, useColorScheme } from "react-native";
 
-export default ({ messages }: any) => {
-	const theme = useTheme();
+export default ({ messages, colorscheme }: any) => {
 	return (
 		<View style={{ flex: 1, width: "100%" }}>
 			<FlatList
@@ -11,10 +9,7 @@ export default ({ messages }: any) => {
 					<Text
 						style={{
 							padding: "5%",
-							backgroundColor: item.item.response
-								? theme.colors.background
-								: undefined,
-							color: theme.colors.onBackground,
+							color: colorscheme === "dark" ? "#fff" : undefined,
 						}}
 					>
 						{item.item.content}

@@ -5,32 +5,33 @@ import {
 	View,
 	KeyboardAvoidingView,
 	SafeAreaView,
-} from "react-native";
-import {
-	PaperProvider,
-	Button,
-	MD3DarkTheme,
+	Platform,
+	useColorScheme,
 	TextInput,
-} from "react-native-paper";
+	Button,
+} from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
 import MessageView from "./src/MessageView";
-import { useTheme } from "react-native-paper";
+import TopBarView from "./src/TopBarView";
 
 export default function App() {
-	const theme = useTheme();
+	const colorscheme = useColorScheme();
 	const styles = StyleSheet.create({
 		input: {
-			backgroundColor: theme.colors.onBackground,
 			width: "70%",
+			color: colorscheme === "dark" ? "#fff" : undefined,
 		},
 		container: {
 			flex: 1,
 			alignItems: "center",
 			justifyContent: "center",
-			backgroundColor: "#000",
+			backgroundColor: colorscheme === "dark" ? "#000" : undefined,
 		},
 	});
 	const [text, setText] = useState("");
-	const [messages, setMessages] = useState([{ response: false, content: "" }]);
+	const [messages, setMessages] = useState<
+		{ response: boolean; content: string }[]
+	>([]);
 
 	const onPress = async (e: any) => {
 		const message = text;
@@ -49,9 +50,10 @@ export default function App() {
 	};
 
 	return (
-		<PaperProvider theme={{ ...MD3DarkTheme }}>
+		<NavigationContainer>
 			<SafeAreaView style={styles.container}>
-				<MessageView messages={messages} />
+				<TopBarView setMessages={setMessages} />
+				<MessageView messages={messages} colorscheme={colorscheme} />
 				<KeyboardAvoidingView
 					style={{
 						flexDirection: "row",
@@ -59,15 +61,18 @@ export default function App() {
 						alignItems: "center",
 						justifyContent: "center",
 					}}
-					behavior={"padding"}
+					behavior={Platform.OS === "ios" ? "padding" : "height"}
 				>
-					<TextInput style={styles.input} value={text} onChangeText={setText} />
-					<Button icon="send" onPress={onPress}>
-						send
-					</Button>
+					<TextInput
+						style={styles.input}
+						placeholder={"Ask me a question..."}
+						value={text}
+						onChangeText={setText}
+					/>
+					<Button title={"Send"} onPress={onPress} />
 				</KeyboardAvoidingView>
 				<StatusBar style="light" />
 			</SafeAreaView>
-		</PaperProvider>
+		</NavigationContainer>
 	);
 }
