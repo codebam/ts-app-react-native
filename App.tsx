@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
+import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
 import {
-	StyleSheet,
-	View,
+	PaperProvider,
+	Button,
+	MD3DarkTheme,
 	TextInput,
-	KeyboardAvoidingView,
-} from "react-native";
-import { PaperProvider, Button, MD3DarkTheme } from "react-native-paper";
+} from "react-native-paper";
 import MessageView from "./src/MessageView";
 import { useTheme } from "react-native-paper";
 
@@ -14,12 +14,9 @@ export default function App() {
 	const theme = useTheme();
 	const styles = StyleSheet.create({
 		input: {
-			height: "40%",
 			margin: "5%",
-			borderWidth: 1,
-			padding: 10,
 			backgroundColor: theme.colors.secondary,
-			width: 250,
+			width: 300,
 		},
 		container: {
 			flex: 1,
