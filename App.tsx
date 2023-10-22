@@ -30,12 +30,24 @@ export default function App() {
 		},
 	});
 	const [text, setText] = useState("");
-	const [messages, setMessages] = useState([
-		{ response: false, content: "example message" },
-		{ response: true, content: "hello world" },
-		{ response: false, content: "foobar" },
-		{ response: true, content: Date() },
-	]);
+	const [messages, setMessages] = useState([{ response: false, content: "" }]);
+
+	const onPress = async (e: any) => {
+		const message = text;
+		setText("");
+		let newMessages = [...messages, { response: false, content: message }];
+		setMessages(newMessages);
+		const response = await fetch(
+			"https://cloudflare-ai-api.codebam.workers.dev/api/question",
+			{ method: "POST", body: JSON.stringify(message) }
+		).then((resp) => resp.json());
+		newMessages = [
+			...newMessages,
+			{ response: true, content: response.response },
+		];
+		setMessages(newMessages);
+	};
+
 	return (
 		<PaperProvider theme={{ ...MD3DarkTheme }}>
 			<SafeAreaView style={styles.container}>
@@ -50,10 +62,7 @@ export default function App() {
 					behavior={"padding"}
 				>
 					<TextInput style={styles.input} value={text} onChangeText={setText} />
-					<Button
-						icon="send"
-						onPress={(e) => setMessages([...messages, ...messages])}
-					>
+					<Button icon="send" onPress={onPress}>
 						send
 					</Button>
 				</KeyboardAvoidingView>
