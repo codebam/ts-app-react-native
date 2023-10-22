@@ -1,12 +1,16 @@
-import { View, Text, FlatList } from "react-native";
+import { View, FlatList } from "react-native";
+import { Text } from "react-native-paper";
 
-export default function MessageView(messages: any) {
-	return <View style={{ flex: 1, marginTop: "15%" }}></View>;
-	// return (
-	// <FlatList
-	// data={messages}
-	// renderItem={(item) => <Text>{item.toString()}</Text>}
-	// style={{ flex: 1, marginTop: "15%" }}
-	// />
-	// );
-}
+export default ({ messages }: any) => {
+	return (
+		<View style={{ flex: 1 }}>
+			<FlatList
+				data={messages}
+				renderItem={(item) => {
+					console.log(item);
+					return <Text>{item.item}</Text>;
+				}}
+			/>
+		</View>
+	);
+};

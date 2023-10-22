@@ -19,7 +19,6 @@ export default function App() {
 	const theme = useTheme();
 	const styles = StyleSheet.create({
 		input: {
-			margin: "5%",
 			backgroundColor: theme.colors.secondary,
 			width: "70%",
 		},
@@ -46,7 +45,7 @@ export default function App() {
 				...MD3DarkTheme,
 			}}
 		>
-			<View style={styles.container}>
+			<SafeAreaView style={styles.container}>
 				<MessageView messages={messages} />
 				<KeyboardAvoidingView
 					style={{
@@ -61,7 +60,7 @@ export default function App() {
 					<Button icon="send">send</Button>
 				</KeyboardAvoidingView>
 				<StatusBar style="auto" />
-			</View>
+			</SafeAreaView>
 		</PaperProvider>
 	);
 }
