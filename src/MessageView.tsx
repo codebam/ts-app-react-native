@@ -15,6 +15,7 @@ export default ({ messages, colorscheme }: any) => {
 									? "#222"
 									: "#eee"
 								: undefined,
+							fontSize: 16,
 						}}
 					>
 						{item.item.content}

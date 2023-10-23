@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
 	StyleSheet,
@@ -10,6 +10,7 @@ import {
 	Button,
 	View,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import MessageView from "./src/MessageView";
 import TopBarView from "./src/TopBarView";
 
@@ -18,11 +19,13 @@ export default function App() {
 	// const colorscheme = "dark";
 	const styles = StyleSheet.create({
 		input: {
-			width: "70%",
-			backgroundColor: "#ddd",
+			width: "80%",
 			margin: 10,
 			padding: 10,
 			borderRadius: 20,
+			color: colorscheme === "dark" ? "#fff" : undefined,
+			backgroundColor: colorscheme === "dark" ? "#222" : "#fff",
+			fontSize: 16,
 		},
 		container: {
 			flex: 1,
@@ -36,32 +39,43 @@ export default function App() {
 		{ response: boolean; content: string }[]
 	>([]);
 
+	AsyncStorage.getItem("messages").then((messages) => {
+		if (messages !== null) {
+			setMessages(JSON.parse(messages));
+		}
+	});
+
 	const onPress = async () => {
 		const message = text;
 		setText("");
 		let newMessages = [...messages, { response: false, content: message }];
 		setMessages(newMessages);
 		const response = await fetch(
-			"https://cloudflare-ai-api.codebam.workers.dev/api/question",
-			{ method: "POST", body: JSON.stringify(message) }
+			"https://cloudflare-ai-api.codebam.workers.dev/api/question/custom",
+			{
+				method: "POST",
+				body: JSON.stringify({ system: ["My name is Lem"], user: [message] }),
+			}
 		).then((resp) => resp.json());
 		newMessages = [
 			...newMessages,
 			{ response: true, content: response.response },
 		];
 		setMessages(newMessages);
+		await AsyncStorage.setItem("messages", JSON.stringify(newMessages));
 	};
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopBarView setMessages={setMessages} />
+			<TopBarView setMessages={setMessages} colorscheme={colorscheme} />
 			<MessageView messages={messages} colorscheme={colorscheme} />
 			<KeyboardAvoidingView
 				style={{
 					flexDirection: "row",
 					width: "100%",
 					alignItems: "center",
-					justifyContent: "center",
+					backgroundColor: colorscheme === "dark" ? "#111" : "#eee",
+					justifyContent: "flex-start",
 				}}
 				behavior={Platform.OS === "ios" ? "padding" : "height"}
 			>
@@ -81,7 +95,7 @@ export default function App() {
 					<Button color="#fff" title={"Send"} onPress={onPress} />
 				</View>
 			</KeyboardAvoidingView>
-			<StatusBar style="light" />
+			<StatusBar style="auto" />
 		</SafeAreaView>
 	);
 }
