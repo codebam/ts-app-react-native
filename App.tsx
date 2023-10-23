@@ -51,6 +51,7 @@ export default function App() {
 		const message = text;
 		setText("");
 		let newMessages = [...messages, { response: false, content: message }];
+		await AsyncStorage.setItem("messages", JSON.stringify(newMessages));
 		setMessages(newMessages);
 		const requestMessages = newMessages.map((message) => message.content);
 		const response = await fetch(
@@ -67,8 +68,8 @@ export default function App() {
 			...newMessages,
 			{ response: true, content: response.response },
 		];
-		setMessages(newMessages);
 		await AsyncStorage.setItem("messages", JSON.stringify(newMessages));
+		setMessages(newMessages);
 	};
 
 	return (
