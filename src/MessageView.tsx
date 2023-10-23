@@ -1,10 +1,18 @@
+import { useRef } from "react";
 import { Text, View, FlatList, useColorScheme } from "react-native";
 
 export default ({ messages, colorscheme }: any) => {
+	const flatList = useRef<FlatList>(null);
 	return (
 		<View style={{ flex: 1, width: "100%" }}>
 			<FlatList
 				data={messages}
+				ref={flatList}
+				onContentSizeChange={() => {
+					if (flatList.current !== null) {
+						flatList.current.scrollToEnd();
+					}
+				}}
 				renderItem={(item) => (
 					<Text
 						style={{
