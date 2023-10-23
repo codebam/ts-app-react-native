@@ -33,7 +33,10 @@ export default ({ setMessages, colorscheme }: any) => {
 				Lem
 			</Text>
 			<View style={{ width: "20%" }}>
-				<Button title={"Clear"} onPress={() => setMessages([])} />
+				<Button
+					title={"Clear"}
+					onPress={() => AsyncStorage.setItem("messages", JSON.stringify([]))}
+				/>
 			</View>
 		</View>
 	);

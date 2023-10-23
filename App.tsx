@@ -39,22 +39,28 @@ export default function App() {
 		{ response: boolean; content: string }[]
 	>([]);
 
-	AsyncStorage.getItem("messages").then((messages) => {
-		if (messages !== null) {
-			setMessages(JSON.parse(messages));
-		}
-	});
+	useEffect(() => {
+		AsyncStorage.getItem("messages").then((m) => {
+			if (m !== null && JSON.parse(m) !== messages) {
+				setMessages(JSON.parse(m));
+			}
+		});
+	}, [messages]);
 
 	const onPress = async () => {
 		const message = text;
 		setText("");
 		let newMessages = [...messages, { response: false, content: message }];
 		setMessages(newMessages);
+		const requestMessages = newMessages.map((message) => message.content);
 		const response = await fetch(
 			"https://cloudflare-ai-api.codebam.workers.dev/api/question/custom",
 			{
 				method: "POST",
-				body: JSON.stringify({ system: ["My name is Lem"], user: [message] }),
+				body: JSON.stringify({
+					system: [...requestMessages],
+					user: [message],
+				}),
 			}
 		).then((resp) => resp.json());
 		newMessages = [
